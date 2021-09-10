@@ -12,6 +12,85 @@
 
 # Argument -f gets a path to password text file.
 
+# pass gets the content of the text file.
+
+red='\033[0;31m'
+green='\033[0;32m'
+clear="\033[0m"
+
+if getopts ":f" opt; then
+ if [[ -f "$2" ]]
+ then
+ 
+  pass="$(cat "$2")"
+
+  len="${#pass}"
+  
+  if test $len -ge 10 ; then
+
+      echo "$pass" | grep -q [0-9]
+
+       if test $? -eq 0 ; then
+
+               echo "$pass" | grep -q [A-Z]
+
+                  if test $? -eq 0 ; then
+
+                      echo "$pass" | grep -q [a-z]
+
+                             if test $? -eq 0 ; then
+							 
+								echo -e "${green}$pass${clear}"
+                                echo "Valid password"
+						    	exit 0
+
+                     
+                         else
+						   echo -e "${red}$pass${clear}"
+                           echo "password must include lower case char"
+						   exit 1
+
+
+                         fi
+                     else
+					   echo -e "${red}$pass${clear}"
+                       echo "password must include capital char" 
+					   exit 1
+
+
+                   fi
+       else
+	     echo -e "${red}$pass${clear}"
+         echo "password must include numbers"   
+	     exit 1
+
+
+       fi
+
+  else
+	echo -e "${red}$pass${clear}"
+    echo "password length should be greater than or equal 10"
+	exit 1
+ fi
+ else
+  echo "There is no such file"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+# No argument provided
+
+else
+
 red='\033[0;31m'
 green='\033[0;32m'
 clear="\033[0m"
@@ -67,3 +146,4 @@ len="${#1}"
 
   fi
  fi 
+ 
